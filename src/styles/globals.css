@@ -1,0 +1,703 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════════════════════
+   Tailwind v4 Theme Tokens
+   ═══════════════════════════════════════════════════════════ */
+
+@theme {
+  --color-surface-light: #F7F8FC;
+  --color-surface-soft: #EDEEF4;
+  --color-surface-dark: #13151A;
+  --color-panel-dark: #1C1F27;
+  --color-border-light: #E2E4EE;
+  --color-border-dark: #262932;
+  --color-blue: #5B8DEF;
+  --color-blue-light: #EEF3FE;
+  --color-amber: #F2A33C;
+  --color-amber-light: #FEF6EC;
+  --color-error: #E0654F;
+  --color-text-heading: #111318;
+  --color-text-body: #4B5263;
+  --color-text-muted: #7B8494;
+  --color-text-dark-head: #EDEAE3;
+  --color-text-dark-body: #9DA5B8;
+
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   FlowCell — Design System (visualizer page)
+   ═══════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── Palette ──────────────────────────────────────────── */
+  --bg:          #15171C;
+  --surface:     #1E2128;
+  --border:      #262932;
+  --text:        #EDEAE3;
+  --accent:      #5B8DEF;
+  --traced:      #F2A33C;
+  --error:       #E0654F;
+
+  /* ── Derived ──────────────────────────────────────────── */
+  --accent-dim:  rgba(91, 141, 239, 0.12);
+  --traced-dim:  rgba(242, 163, 60, 0.10);
+  --text-2:      rgba(237, 234, 227, 0.50);
+  --text-3:      rgba(237, 234, 227, 0.28);
+
+  /* ── Typography ───────────────────────────────────────── */
+  --font-heading: 'Space Grotesk', system-ui, sans-serif;
+  --font-body:    'Inter', system-ui, sans-serif;
+  --font-code:    'JetBrains Mono', monospace;
+
+  /* ── Radii ────────────────────────────────────────────── */
+  --r-sm: 4px;
+  --r-md: 8px;
+
+  /* ── Motion ───────────────────────────────────────────── */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --t-fast: 120ms;
+  --t-mid: 200ms;
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   Reset
+   ═══════════════════════════════════════════════════════════ */
+
+html, body, #root {
+  min-height: 100%;
+  width: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Hide scrollbar on landing page demo strip */
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+
+/* ═══════════════════════════════════════════════════════════
+   Visualizer Page Shell (.viz-root)
+   ═══════════════════════════════════════════════════════════ */
+
+.viz-root {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 13px;
+  overflow: hidden;
+}
+
+
+/* ── Visualizer Top Bar ─────────────────────────────────── */
+
+.viz-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  padding: 0 16px;
+  background: #1C1F27;
+  border-bottom: 1px solid #262932;
+  flex-shrink: 0;
+  z-index: 10;
+}
+
+.viz-topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.viz-wordmark {
+  font-family: var(--font-heading);
+  font-size: 17px;
+  font-weight: 600;
+  color: #5B8DEF;
+  text-decoration: none;
+  letter-spacing: -0.01em;
+}
+
+.viz-wordmark:hover {
+  opacity: 0.85;
+}
+
+.viz-topbar-center {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.viz-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.viz-select {
+  appearance: none;
+  background: #13151A;
+  border: 1px solid #262932;
+  border-radius: 6px;
+  color: #EDEAE3;
+  padding: 6px 28px 6px 10px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 120ms ease;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%23EDEAE3' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+}
+
+.viz-select:hover { border-color: #5B8DEF; }
+.viz-select:focus-visible { border-color: #5B8DEF; box-shadow: 0 0 0 2px rgba(91,141,239,0.12); }
+
+.viz-lang-group {
+  display: flex;
+  gap: 0;
+  border: 1px solid #262932;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.viz-lang-toggle {
+  font-family: var(--font-code);
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(237,234,227,0.5);
+  background: #13151A;
+  border: none;
+  border-right: 1px solid #262932;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition: all 120ms ease;
+}
+
+.viz-lang-toggle:last-child {
+  border-right: none;
+}
+
+.viz-lang-toggle:hover {
+  color: rgba(237,234,227,0.8);
+  background: rgba(91,141,239,0.06);
+}
+
+.viz-lang-active {
+  color: #5B8DEF;
+  background: rgba(91,141,239,0.12);
+}
+
+.viz-share-btn {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(237,234,227,0.5);
+  background: transparent;
+  border: 1px solid #262932;
+  border-radius: 6px;
+  padding: 5px 12px;
+  cursor: default;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: border-color 120ms ease;
+}
+
+.viz-share-btn:hover { border-color: rgba(237,234,227,0.2); }
+
+.viz-error-pill {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-code);
+  font-size: 11px;
+  font-weight: 500;
+  color: #E0654F;
+  background: rgba(224, 101, 79, 0.1);
+  border-radius: 20px;
+  padding: 3px 10px;
+}
+
+.viz-error-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #E0654F;
+}
+
+
+/* ── Split Pane ─────────────────────────────────────────── */
+
+.split-pane {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.editor-panel {
+  flex: 0 0 43%;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.graph-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+}
+
+
+/* ── Divider ────────────────────────────────────────────── */
+
+.pane-divider {
+  position: relative;
+  width: 2px;
+  background: #262932;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.divider-pulse {
+  position: absolute;
+  left: 0;
+  width: 2px;
+  height: 12px;
+  background: #5B8DEF;
+  border-radius: 1px;
+}
+
+
+/* ── Panel Headers ──────────────────────────────────────── */
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 32px;
+  padding: 0 14px;
+  background: #1C1F27;
+  border-bottom: 1px solid #262932;
+  flex-shrink: 0;
+}
+
+.panel-label {
+  font-family: var(--font-code);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-3);
+  text-transform: lowercase;
+  letter-spacing: 0.04em;
+}
+
+.panel-error-hint {
+  font-family: var(--font-code);
+  font-size: 10px;
+  color: var(--error);
+  max-width: 320px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.node-count {
+  font-family: var(--font-code);
+  font-size: 10px;
+  color: var(--text-3);
+}
+
+
+/* ── Editor ─────────────────────────────────────────────── */
+
+.editor-container {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+
+/* ── Graph ──────────────────────────────────────────────── */
+
+.graph-container {
+  flex: 1;
+  min-height: 0;
+  background: #13151A;
+}
+
+.flow-canvas {
+  background: #13151A !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   Custom Nodes
+   ═══════════════════════════════════════════════════════════ */
+
+.function-node,
+.variable-node {
+  min-width: 170px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: #1C1F27;
+  cursor: grab;
+  transition:
+    box-shadow 120ms ease;
+}
+
+.function-node:active,
+.variable-node:active {
+  cursor: grabbing;
+}
+
+.function-node {
+  border: 1px solid #5B8DEF;
+}
+
+.function-node:hover {
+  box-shadow: 0 0 20px rgba(91, 141, 239, 0.15);
+}
+
+.variable-node {
+  border: 1px solid #F2A33C;
+}
+
+.variable-node:hover {
+  box-shadow: 0 0 20px rgba(242, 163, 60, 0.15);
+}
+
+.node-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 3px;
+}
+
+.node-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  font-family: var(--font-code);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.function-node .node-icon {
+  background: rgba(91, 141, 239, 0.12);
+  color: #5B8DEF;
+}
+
+.variable-node .node-icon {
+  background: rgba(242, 163, 60, 0.10);
+  color: #F2A33C;
+}
+
+.node-type-label {
+  font-family: var(--font-body);
+  font-size: 9px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-3);
+}
+
+.node-name {
+  font-family: var(--font-code);
+  font-size: 14px;
+  font-weight: 500;
+  color: #EDEAE3;
+  letter-spacing: -0.01em;
+}
+
+.node-params {
+  font-family: var(--font-code);
+  font-size: 11px;
+  color: var(--text-2);
+  margin-top: 1px;
+}
+
+.node-init-type {
+  font-family: var(--font-code);
+  font-size: 11px;
+  color: var(--text-2);
+  margin-top: 1px;
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   React Flow — Handles
+   ═══════════════════════════════════════════════════════════ */
+
+.handle-dot {
+  width: 7px !important;
+  height: 7px !important;
+  border: 2px solid #1C1F27 !important;
+}
+
+.function-node .handle-dot { background: #5B8DEF !important; }
+.variable-node .handle-dot { background: #F2A33C !important; }
+
+
+/* ═══════════════════════════════════════════════════════════
+   React Flow — Edges
+   ═══════════════════════════════════════════════════════════ */
+
+.react-flow__edge path {
+  stroke: #5B8DEF !important;
+  stroke-width: 1.5 !important;
+  stroke-dasharray: 6 4;
+  opacity: 0.45;
+  transition: opacity 120ms ease;
+}
+
+.react-flow__edge:hover path {
+  opacity: 0.9;
+  stroke-width: 2 !important;
+}
+
+.react-flow__edge.animated path {
+  opacity: 0.65;
+}
+
+/* Traced edges (Phase 2: executed) */
+.react-flow__edge.traced path {
+  stroke: #F2A33C !important;
+  stroke-dasharray: none;
+  opacity: 0.8;
+}
+
+/* Edge labels */
+.react-flow__edge-text {
+  fill: var(--text-3) !important;
+  font-family: var(--font-code) !important;
+  font-size: 9px !important;
+  font-weight: 500 !important;
+}
+
+.react-flow__edge-textbg {
+  fill: #13151A !important;
+  fill-opacity: 0.85 !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   React Flow — Controls
+   ═══════════════════════════════════════════════════════════ */
+
+.flow-controls {
+  border: 1px solid #262932 !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+  box-shadow: none !important;
+}
+
+.flow-controls button {
+  background: #1C1F27 !important;
+  border: none !important;
+  border-bottom: 1px solid #262932 !important;
+  color: var(--text-3) !important;
+  width: 28px !important;
+  height: 28px !important;
+  transition: color 120ms ease !important;
+}
+
+.flow-controls button:hover { color: #EDEAE3 !important; }
+.flow-controls button:focus-visible { outline: 2px solid #5B8DEF !important; outline-offset: -2px !important; }
+.flow-controls button:last-child { border-bottom: none !important; }
+.flow-controls button svg { fill: currentColor !important; }
+
+
+/* ═══════════════════════════════════════════════════════════
+   React Flow — MiniMap
+   ═══════════════════════════════════════════════════════════ */
+
+.flow-minimap {
+  background: #1C1F27 !important;
+  border: 1px solid #262932 !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+  box-shadow: none !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   React Flow — Selection
+   ═══════════════════════════════════════════════════════════ */
+
+.react-flow__selection {
+  background: rgba(91, 141, 239, 0.12) !important;
+  border: 1px solid #5B8DEF !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   Playback Bar (placeholder — Phase 2 wires logic)
+   ═══════════════════════════════════════════════════════════ */
+
+.playback-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  height: 52px;
+  padding: 0 20px;
+  background: #1C1F27;
+  border-top: 1px solid #262932;
+  flex-shrink: 0;
+}
+
+.playback-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.playback-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: #5B8DEF;
+  cursor: pointer;
+  transition: background 120ms ease;
+}
+
+.playback-btn:hover {
+  background: rgba(91, 141, 239, 0.1);
+}
+
+.playback-btn:focus-visible {
+  outline: 2px solid #5B8DEF;
+  outline-offset: 1px;
+}
+
+.playback-btn.primary {
+  background: rgba(91, 141, 239, 0.12);
+  width: 36px;
+  height: 36px;
+}
+
+.playback-btn.primary:hover {
+  background: rgba(91, 141, 239, 0.2);
+}
+
+.step-counter {
+  font-family: var(--font-code);
+  font-size: 12px;
+  color: var(--text-2);
+  min-width: 80px;
+  text-align: center;
+}
+
+.speed-selector {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.speed-btn {
+  font-family: var(--font-code);
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-3);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  padding: 3px 8px;
+  cursor: pointer;
+  transition: all 120ms ease;
+}
+
+.speed-btn:hover { color: #EDEAE3; }
+.speed-btn.active { color: #5B8DEF; border-color: #262932; background: rgba(91,141,239,0.08); }
+.speed-btn:focus-visible { outline: 2px solid #5B8DEF; outline-offset: 1px; }
+
+
+/* ═══════════════════════════════════════════════════════════
+   Focus States — Global
+   ═══════════════════════════════════════════════════════════ */
+
+:focus-visible {
+  outline: 2px solid #5B8DEF;
+  outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   Responsive — Visualizer
+   ═══════════════════════════════════════════════════════════ */
+
+@media (max-width: 720px) {
+  .split-pane {
+    flex-direction: column;
+  }
+
+  .editor-panel {
+    flex: 0 0 40%;
+  }
+
+  .graph-panel {
+    flex: 0 0 60%;
+  }
+
+  .pane-divider {
+    width: 100%;
+    height: 2px;
+  }
+
+  .playback-bar {
+    position: static;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   Scrollbars
+   ═══════════════════════════════════════════════════════════ */
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #262932;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(237,234,227,0.28);
+}
