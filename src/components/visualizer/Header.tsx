@@ -4,10 +4,11 @@ import type { Language } from '../../types';
 
 const languageLabels: Record<Language, string> = {
   javascript: 'JS',
+  python: 'Py',
   java: 'Java',
 };
 
-const allLanguages: Language[] = ['javascript', 'java'];
+const allLanguages: Language[] = ['javascript', 'python', 'java'];
 
 export function Header() {
   const selectedExample = useFlowStore((s) => s.selectedExample);

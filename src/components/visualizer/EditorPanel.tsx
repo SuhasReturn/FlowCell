@@ -3,6 +3,7 @@ import { useFlowStore } from '../../store/useFlowStore';
 
 const MONACO_LANG_MAP: Record<string, string> = {
   javascript: 'javascript',
+  python: 'python',
   java: 'java',
 };
 
@@ -47,7 +48,7 @@ export function EditorPanel() {
             bracketPairColorization: { enabled: true },
             guides: { bracketPairs: true },
             wordWrap: 'on',
-            tabSize: 2,
+            tabSize: language === 'python' ? 4 : 2,
             lineHeight: 20,
           }}
         />

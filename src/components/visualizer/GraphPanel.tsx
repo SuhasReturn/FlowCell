@@ -9,6 +9,7 @@ import {
   useEdgesState,
   type DefaultEdgeOptions,
   type OnConnect,
+  MarkerType,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 
@@ -23,9 +24,22 @@ const nodeTypes: Record<string, any> = {
   variable: VariableNode,
 };
 
+// Edge colors by relationship type
+const EDGE_COLORS: Record<string, string> = {
+  calls: '#5B8DEF',   // blue for function calls
+  reads: '#9DA5B8',   // muted for reads
+  writes: '#F2A33C',  // amber for writes
+};
+
 const defaultEdgeOptions: DefaultEdgeOptions = {
   type: 'smoothstep',
-  style: { strokeWidth: 1.5 },
+  style: { strokeWidth: 1.8 },
+  markerEnd: {
+    type: MarkerType.ArrowClosed,
+    width: 16,
+    height: 16,
+    color: '#5B8DEF',
+  },
 };
 
 export function GraphPanel() {
@@ -33,8 +47,43 @@ export function GraphPanel() {
   const storeEdges = useFlowStore((s) => s.edges);
   const setGraph = useFlowStore((s) => s.setGraph);
 
+  // Add arrow markers + colors based on relationship type
+  const styledEdges = useMemo(() => {
+    return storeEdges.map((edge) => {
+      const relationship = edge.data?.relationship || 'calls';
+      const color = EDGE_COLORS[relationship] || '#5B8DEF';
+
+      return {
+        ...edge,
+        style: {
+          ...edge.style,
+          strokeWidth: 1.8,
+          stroke: color,
+        },
+        markerEnd: {
+          type: MarkerType.ArrowClosed,
+          width: 16,
+          height: 16,
+          color,
+        },
+        labelStyle: {
+          fill: color,
+          fontSize: 10,
+          fontFamily: "'JetBrains Mono', monospace",
+          fontWeight: 500,
+        },
+        labelBgStyle: {
+          fill: '#13151A',
+          fillOpacity: 0.85,
+        },
+        labelBgPadding: [4, 2] as [number, number],
+        labelBgBorderRadius: 3,
+      };
+    });
+  }, [storeEdges]);
+
   const [nodes, setNodes, onNodesChange] = useNodesState(storeNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(storeEdges);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(styledEdges);
 
   // Sync store → local state
   useEffect(() => {
@@ -42,8 +91,8 @@ export function GraphPanel() {
   }, [storeNodes, setNodes]);
 
   useEffect(() => {
-    setEdges(storeEdges);
-  }, [storeEdges, setEdges]);
+    setEdges(styledEdges);
+  }, [styledEdges, setEdges]);
 
   // When user drags nodes, persist back to store
   const onNodeDragStop = useCallback(() => {
@@ -52,7 +101,7 @@ export function GraphPanel() {
   }, [nodes, edges, setGraph]);
 
   const onConnect: OnConnect = useCallback(() => {
-    // No user-created connections in Phase 1
+    // No user-created connections
   }, []);
 
   const proOptions = useMemo(() => ({ hideAttribution: true }), []);
@@ -86,7 +135,7 @@ export function GraphPanel() {
             className="flow-minimap"
             nodeColor={(node) => {
               if (node.type === 'function') return '#5B8DEF';
-              if (node.type === 'variable') return '#5B8DEF';
+              if (node.type === 'variable') return '#F2A33C';
               return '#262932';
             }}
             maskColor="rgba(21, 23, 28, 0.8)"

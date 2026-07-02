@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useFlowStore } from '../store/useFlowStore';
 import { parseAndBuildGraph } from '../utils/astToGraph';
 import { parseJavaAndBuildGraph } from '../utils/javaParser';
+import { parsePythonAndBuildGraph } from '../utils/pythonParser';
 
 const DEBOUNCE_MS = 250;
 
@@ -29,6 +30,8 @@ export function useCodeParser() {
         let result;
         if (language === 'java') {
           result = parseJavaAndBuildGraph(code);
+        } else if (language === 'python') {
+          result = parsePythonAndBuildGraph(code);
         } else {
           result = parseAndBuildGraph(code);
         }

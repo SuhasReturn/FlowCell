@@ -5,6 +5,7 @@ import { Share2, SkipBack, Rewind, Play, FastForward } from 'lucide-react';
 import { Header } from '../components/visualizer/Header';
 import { EditorPanel } from '../components/visualizer/EditorPanel';
 import { GraphPanel } from '../components/visualizer/GraphPanel';
+import { OutputPanel } from '../components/visualizer/OutputPanel';
 import { useCodeParser } from '../hooks/useCodeParser';
 import { useFlowStore } from '../store/useFlowStore';
 
@@ -71,14 +72,17 @@ export default function Visualize() {
 
       {/* Main panes */}
       <main className="split-pane">
-        <EditorPanel />
+        <div className="editor-output-column">
+          <EditorPanel />
+          <OutputPanel />
+        </div>
         <div className="pane-divider" aria-hidden="true">
           <DividerPulse />
         </div>
         <GraphPanel />
       </main>
 
-      {/* Playback bar (placeholder — Phase 2 wires logic) */}
+      {/* Playback bar */}
       <div className="playback-bar">
         <div className="playback-controls">
           <button className="playback-btn" aria-label="Reset" disabled>

@@ -423,6 +423,157 @@ public class Stack {
     }
 }`,
   },
+
+  // ── Python ────────────────────────────────────────────────
+  {
+    key: 'py-fibonacci',
+    label: 'Fibonacci',
+    language: 'python',
+    code: `# Fibonacci with memoization
+memo = {}
+limit = 10
+
+def fibonacci(n):
+    if n <= 1:
+        return n
+    if n in memo:
+        return memo[n]
+    result = fibonacci(n - 1) + fibonacci(n - 2)
+    memo[n] = result
+    return result
+
+def print_sequence(count):
+    for i in range(count):
+        print(fibonacci(i))
+
+print_sequence(limit)`,
+  },
+  {
+    key: 'py-list-ops',
+    label: 'List Operations',
+    language: 'python',
+    code: `# List processing pipeline
+numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+threshold = 5
+
+def filter_above(arr):
+    return [x for x in arr if x > threshold]
+
+def double_values(arr):
+    return [x * 2 for x in arr]
+
+def sum_list(arr):
+    total = 0
+    for x in arr:
+        total += x
+    return total
+
+def process(data):
+    filtered = filter_above(data)
+    doubled = double_values(filtered)
+    return sum_list(doubled)
+
+result = process(numbers)
+print(result)`,
+  },
+  {
+    key: 'py-calculator',
+    label: 'Calculator',
+    language: 'python',
+    code: `# Simple calculator
+result = 0
+operation_count = 0
+
+def add(a, b):
+    global result, operation_count
+    result = a + b
+    operation_count += 1
+    log(result)
+    return result
+
+def subtract(a, b):
+    global result, operation_count
+    result = a - b
+    operation_count += 1
+    log(result)
+    return result
+
+def multiply(a, b):
+    global result, operation_count
+    result = a * b
+    operation_count += 1
+    log(result)
+    return result
+
+def reset():
+    global result, operation_count
+    result = 0
+    operation_count = 0
+
+def log(value):
+    print(f"Result: {value}")
+
+add(10, 5)
+multiply(3, 4)`,
+  },
+  {
+    key: 'py-word-counter',
+    label: 'Word Counter',
+    language: 'python',
+    code: `# Word frequency counter
+text = "hello world hello python world hello"
+word_counts = {}
+
+def split_words(s):
+    return s.split()
+
+def count_words(words):
+    for word in words:
+        update_count(word)
+
+def update_count(word):
+    if word in word_counts:
+        word_counts[word] += 1
+    else:
+        word_counts[word] = 1
+
+def get_most_common():
+    max_word = ""
+    max_count = 0
+    for word in word_counts:
+        if word_counts[word] > max_count:
+            max_count = word_counts[word]
+            max_word = word
+    return max_word
+
+def analyze(s):
+    words = split_words(s)
+    count_words(words)
+    return get_most_common()
+
+result = analyze(text)
+print(result)`,
+  },
+
+  // ── Custom Code (one per language) ────────────────────────
+  {
+    key: 'custom-js',
+    label: '✎ Custom Code',
+    language: 'javascript',
+    code: `// Write your own JavaScript code here\n// The graph will update as you type\n`,
+  },
+  {
+    key: 'custom-py',
+    label: '✎ Custom Code',
+    language: 'python',
+    code: `# Write your own Python code here\n# The graph will update as you type\n`,
+  },
+  {
+    key: 'custom-java',
+    label: '✎ Custom Code',
+    language: 'java',
+    code: `// Write your own Java code here\n// The graph will update as you type\npublic class Main {\n\n}\n`,
+  },
 ];
 
 export function getExampleByKey(key: string): ExampleSnippet | undefined {
@@ -432,3 +583,4 @@ export function getExampleByKey(key: string): ExampleSnippet | undefined {
 export function getExamplesByLanguage(language: string): ExampleSnippet[] {
   return examples.filter((e) => e.language === language);
 }
+

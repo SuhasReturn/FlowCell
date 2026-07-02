@@ -31,7 +31,7 @@ export interface GraphData {
 
 // ── Language ───────────────────────────────────────────────
 
-export type Language = 'javascript' | 'java';
+export type Language = 'javascript' | 'python' | 'java';
 
 // ── Example Snippet ────────────────────────────────────────
 

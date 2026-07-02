@@ -22,7 +22,7 @@ const faqs = [
   },
   {
     q: 'Which languages are supported right now?',
-    a: 'JavaScript and Python are fully supported. TypeScript support is on the roadmap. More languages are planned.',
+    a: 'JavaScript, Python, and Java are fully supported. Each language has its own parser that builds the visualization graph as you type. TypeScript support is on the roadmap.',
   },
   {
     q: 'Can I share my visualizations?',
