@@ -17,7 +17,7 @@ const languages = [
     icon: (
       <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
         <rect width="40" height="40" rx="6" fill="#F7DF1E" />
-        <text x="20" y="30" textAnchor="middle" fontSize="18" fontWeight="bold" fill="#111318" fontFamily="monospace">JS</text>
+        <text x="20" y="30" textAnchor="middle" fontSize="18" fontWeight="bold" fill="#323330" fontFamily="monospace">JS</text>
       </svg>
     ),
     body: 'Full function call graphs, variable tracing, closures, and step-by-step execution.',

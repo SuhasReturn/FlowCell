@@ -34,7 +34,7 @@ function TypingVisual() {
         {/* Graph node appearing */}
         <motion.g initial={prefersReducedMotion ? {} : { opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, delay: 0.8 }}>
-          <rect x="185" y="60" width="120" height="44" rx="8" fill="#1C1F27" stroke="#5B8DEF" strokeWidth="1.5" />
+          <rect x="185" y="60" width="120" height="44" rx="8" fill="#1E2128" stroke="#5B8DEF" strokeWidth="1.5" />
           <text x="245" y="78" textAnchor="middle" fill="#9DA5B8" fontSize="8" className="font-mono">FUNCTION</text>
           <text x="245" y="94" textAnchor="middle" fill="#EDEAE3" fontSize="12" className="font-mono" fontWeight="500">factorial</text>
         </motion.g>
@@ -57,13 +57,13 @@ function CallGraphVisual() {
         <text x="130" y="62" fill="#5B8DEF" fontSize="7" className="font-mono" opacity="0.6">calls</text>
         <text x="130" y="95" fill="#5B8DEF" fontSize="7" className="font-mono" opacity="0.6">reads</text>
         {/* Nodes */}
-        <rect x="10" y="25" width="70" height="36" rx="6" fill="#1C1F27" stroke="#5B8DEF" strokeWidth="1.5" />
+        <rect x="10" y="25" width="70" height="36" rx="6" fill="#1E2128" stroke="#5B8DEF" strokeWidth="1.5" />
         <text x="45" y="48" textAnchor="middle" fill="#EDEAE3" fontSize="10" className="font-mono">process</text>
-        <rect x="170" y="10" width="70" height="36" rx="6" fill="#1C1F27" stroke="#5B8DEF" strokeWidth="1.5" />
+        <rect x="170" y="10" width="70" height="36" rx="6" fill="#1E2128" stroke="#5B8DEF" strokeWidth="1.5" />
         <text x="205" y="33" textAnchor="middle" fill="#EDEAE3" fontSize="10" className="font-mono">filter</text>
-        <rect x="170" y="60" width="70" height="36" rx="6" fill="#1C1F27" stroke="#5B8DEF" strokeWidth="1.5" />
+        <rect x="170" y="60" width="70" height="36" rx="6" fill="#1E2128" stroke="#5B8DEF" strokeWidth="1.5" />
         <text x="205" y="83" textAnchor="middle" fill="#EDEAE3" fontSize="10" className="font-mono">sort</text>
-        <rect x="170" y="110" width="70" height="36" rx="6" fill="#1C1F27" stroke="#F2A33C" strokeWidth="1.5" />
+        <rect x="170" y="110" width="70" height="36" rx="6" fill="#1E2128" stroke="#F2A33C" strokeWidth="1.5" />
         <text x="205" y="133" textAnchor="middle" fill="#EDEAE3" fontSize="10" className="font-mono">data</text>
       </svg>
     </div>

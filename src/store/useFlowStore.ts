@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { FlowNode, FlowEdge, Language } from '../types';
+import type { FlowNode, FlowEdge, Language, ExecutionStatus, ConsoleEntry } from '../types';
 import { examples, getExamplesByLanguage } from '../utils/examples';
 
 // ── Store Interface ────────────────────────────────────────
@@ -12,11 +12,28 @@ interface FlowState {
   parseError: string | null;
   selectedExample: string;
 
+  // Execution state (Change 2)
+  executionStatus: ExecutionStatus;
+  consoleOutput: ConsoleEntry[];
+  isPlaying: boolean;
+  currentStep: number;
+  totalSteps: number;
+
   setCode: (code: string) => void;
   setLanguage: (language: Language) => void;
   setGraph: (nodes: FlowNode[], edges: FlowEdge[]) => void;
   setParseError: (error: string | null) => void;
   loadExample: (key: string) => void;
+
+  // Execution actions
+  setExecutionStatus: (status: ExecutionStatus) => void;
+  setConsoleOutput: (output: ConsoleEntry[]) => void;
+  addConsoleEntry: (entry: ConsoleEntry) => void;
+  clearConsole: () => void;
+  setIsPlaying: (playing: boolean) => void;
+  setCurrentStep: (step: number) => void;
+  setTotalSteps: (total: number) => void;
+  resetExecution: () => void;
 }
 
 // ── Store ──────────────────────────────────────────────────
@@ -29,7 +46,27 @@ export const useFlowStore = create<FlowState>((set, get) => ({
   parseError: null,
   selectedExample: examples[0].key,
 
-  setCode: (code) => set({ code }),
+  // Execution defaults
+  executionStatus: 'idle',
+  consoleOutput: [],
+  isPlaying: false,
+  currentStep: 0,
+  totalSteps: 0,
+
+  setCode: (code) => {
+    set({ code });
+    // Reset execution when code changes
+    const current = get();
+    if (current.executionStatus !== 'idle') {
+      set({
+        executionStatus: 'idle',
+        consoleOutput: [],
+        isPlaying: false,
+        currentStep: 0,
+        totalSteps: 0,
+      });
+    }
+  },
 
   setLanguage: (language) => {
     const current = get();
@@ -46,9 +83,25 @@ export const useFlowStore = create<FlowState>((set, get) => ({
         nodes: [],
         edges: [],
         parseError: null,
+        executionStatus: 'idle',
+        consoleOutput: [],
+        isPlaying: false,
+        currentStep: 0,
+        totalSteps: 0,
       });
     } else {
-      set({ language, code: '', nodes: [], edges: [], parseError: null });
+      set({
+        language,
+        code: '',
+        nodes: [],
+        edges: [],
+        parseError: null,
+        executionStatus: 'idle',
+        consoleOutput: [],
+        isPlaying: false,
+        currentStep: 0,
+        totalSteps: 0,
+      });
     }
   },
 
@@ -80,7 +133,29 @@ export const useFlowStore = create<FlowState>((set, get) => ({
         language: example.language,
         nodes: [],
         edges: [],
+        executionStatus: 'idle',
+        consoleOutput: [],
+        isPlaying: false,
+        currentStep: 0,
+        totalSteps: 0,
       });
     }
   },
+
+  // Execution actions
+  setExecutionStatus: (status) => set({ executionStatus: status }),
+  setConsoleOutput: (output) => set({ consoleOutput: output }),
+  addConsoleEntry: (entry) => set((s) => ({ consoleOutput: [...s.consoleOutput, entry] })),
+  clearConsole: () => set({ consoleOutput: [] }),
+  setIsPlaying: (playing) => set({ isPlaying: playing }),
+  setCurrentStep: (step) => set({ currentStep: step }),
+  setTotalSteps: (total) => set({ totalSteps: total }),
+  resetExecution: () =>
+    set({
+      executionStatus: 'idle',
+      consoleOutput: [],
+      isPlaying: false,
+      currentStep: 0,
+      totalSteps: 0,
+    }),
 }));

@@ -67,7 +67,7 @@ export function Hero() {
           LIVE CODE VISUALIZATION
         </motion.p>
 
-        {/* Headline — each word animates in, with proper spacing */}
+        {/* Headline */}
         <h1 className="font-display text-5xl md:text-7xl font-bold text-text-dark-head leading-tight mb-6 flex flex-wrap justify-center gap-x-5">
           {headlineWords.map((word, i) => (
             <motion.span

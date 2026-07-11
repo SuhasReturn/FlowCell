@@ -33,6 +33,21 @@ export interface GraphData {
 
 export type Language = 'javascript' | 'python' | 'java';
 
+// ── Execution ──────────────────────────────────────────────
+
+export type ExecutionStatus = 'idle' | 'running' | 'success' | 'error';
+
+export interface TraceStep {
+  line: number;
+  type: 'call' | 'return' | 'assign' | 'log';
+  detail: string;
+}
+
+export interface ConsoleEntry {
+  type: 'normal' | 'return' | 'error' | 'system';
+  text: string;
+}
+
 // ── Example Snippet ────────────────────────────────────────
 
 export interface ExampleSnippet {
